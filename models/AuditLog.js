@@ -32,6 +32,7 @@ const auditLogSchema = new mongoose.Schema(
         "ACCOUNT_UNLOCKED",
         "LOGIN_SUCCESS",
         "LOGIN_FAILED",
+        "USER_REGISTERED",
         "ERROR_DATABASE",
         "ERROR_EMAIL_SERVICE",
         "ERROR_VALIDATION",

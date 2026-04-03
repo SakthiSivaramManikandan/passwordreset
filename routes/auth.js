@@ -108,14 +108,23 @@ router.post(
         req
       );
 
-      // Create audit log entry
-      await AuditLog.create({
-        userId: email,
-        action: "USER_REGISTERED",
-        ipAddress: auditLogger.getClientIP(req),
-        userAgent: req.get("user-agent"),
-        details: { firstName, lastName },
-      });
+      // Registration should still succeed even if audit persistence has an issue.
+      try {
+        await AuditLog.create({
+          userId: email,
+          action: "USER_REGISTERED",
+          ipAddress: auditLogger.getClientIP(req),
+          userAgent: req.get("user-agent"),
+          details: { firstName, lastName },
+        });
+      } catch (auditError) {
+        auditLogger.logError(
+          "DATABASE",
+          email,
+          auditError,
+          req
+        );
+      }
 
       res.status(201).json({
         success: true,

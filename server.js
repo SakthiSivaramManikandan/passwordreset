@@ -45,6 +45,25 @@ connectDB().catch((error) => {
 // API ROUTES
 // ============================================================================
 
+// Root endpoint for deployed backend URL
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Password Reset API is running",
+    health: "/api/health",
+    authBase: "/api/auth",
+  });
+});
+
+app.get("/api", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "API is available",
+    health: "/api/health",
+    authBase: "/api/auth",
+  });
+});
+
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.status(200).json({
